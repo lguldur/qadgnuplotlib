@@ -155,9 +155,7 @@ C++ type => Internal gnuplot binary type name:
 
 `Script` is a reusable script object. It can be constructed from a string, saved to a file, loaded from a file, and executed multiple times.
 
-Method
-
-Purpose
+### Methods
 
 `Script()` Create an empty script.
 
