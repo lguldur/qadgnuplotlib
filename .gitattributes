@@ -1,0 +1,4 @@
+# Tell GitHub Linguist how to classify the repository
+*.c linguist-language=C++
+*.h linguist-language=C++
+*.trm linguist-language=C++
