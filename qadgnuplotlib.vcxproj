@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{7A5C6135-3BB2-46B2-8D19-772973418A6C}</ProjectGuid>
+    <RootNamespace>qadgnuplotlib</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <MSVCPreviewEnabled>false</MSVCPreviewEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <MSVCPreviewEnabled>false</MSVCPreviewEnabled>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(ProjectDir)build\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)build\obj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>qadgnuplotlib</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(ProjectDir)build\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)build\obj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>qadgnuplotlib</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PreBuildEvent>
+      <Command>if not exist "$(ProjectDir)generated" mkdir "$(ProjectDir)generated"
+copy /Y "$(ProjectDir)gnuplot-main\config\config.nt" "$(ProjectDir)generated\config.h"
+echo #ifndef GNUPLOT_TIMEBASE_H_INCLUDED&gt; "$(ProjectDir)generated\timestamp.h"
+echo #define GNUPLOT_TIMEBASE_H_INCLUDED&gt;&gt; "$(ProjectDir)generated\timestamp.h"
+echo const char gnuplot_date[] = "2026-05-02 ";&gt;&gt; "$(ProjectDir)generated\timestamp.h"
+echo #endif&gt;&gt; "$(ProjectDir)generated\timestamp.h"
+for /f "usebackq delims=" %%V in (`powershell -NoProfile -ExecutionPolicy Bypass -Command "$d=Get-Date; $sec=[int]($d-$d.Date).TotalSeconds; '{0:yy}.{0:MM}.{0:dd}.{1}' -f $d,$sec"`) do set QADGNUPLOTLIB_VERSION=%%V
+&gt; "$(ProjectDir)generated\qadgnuplotlib_version.h" echo #pragma once
+&gt;&gt; "$(ProjectDir)generated\qadgnuplotlib_version.h" echo.
+&gt;&gt; "$(ProjectDir)generated\qadgnuplotlib_version.h" echo #define QADGNUPLOTLIB_VERSION_STRING "%QADGNUPLOTLIB_VERSION%"
+&gt;&gt; "$(ProjectDir)generated\qadgnuplotlib_version.h" echo #define QADGNUPLOTLIB_COPYRIGHT_STRING "Copyright (c) 2026 David Duchet"</Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)generated;$(ProjectDir)gnuplot-main\src;$(ProjectDir)gnuplot-main\src\win;$(ProjectDir)gnuplot-main;$(ProjectDir)gnuplot-main\term;$(ProjectDir)lunasvg\include;$(ProjectDir)lunasvg\source;$(ProjectDir)lunasvg\plutovg\include;$(ProjectDir)lunasvg\plutovg\source;$(ProjectDir)base64;$(ProjectDir)miniz;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>HAVE_CONFIG_H;__MSC__;UNICODE;_UNICODE;USE_MOUSE;PIPES;GNUPLOT_HISTORY;WGP_CONSOLE;DEVELOPMENT_VERSION;GNUPLOT_SHARE_DIR="share";GNUPLOT_PS_DIR="share\PostScript";GNUPLOT_JS_DIR="share\js";PLUTOVG_BUILD_STATIC;LUNASVG_BUILD_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>4267;5287;4828;4129;4018;4244;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName).lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <PreBuildEvent>
+      <Command>if not exist "$(ProjectDir)generated" mkdir "$(ProjectDir)generated"
+copy /Y "$(ProjectDir)gnuplot-main\config\config.nt" "$(ProjectDir)generated\config.h"
+echo #ifndef GNUPLOT_TIMEBASE_H_INCLUDED&gt; "$(ProjectDir)generated\timestamp.h"
+echo #define GNUPLOT_TIMEBASE_H_INCLUDED&gt;&gt; "$(ProjectDir)generated\timestamp.h"
+echo const char gnuplot_date[] = "2026-05-02 ";&gt;&gt; "$(ProjectDir)generated\timestamp.h"
+echo #endif&gt;&gt; "$(ProjectDir)generated\timestamp.h"
+for /f "usebackq delims=" %%V in (`powershell -NoProfile -ExecutionPolicy Bypass -Command "$d=Get-Date; $sec=[int]($d-$d.Date).TotalSeconds; '{0:yy}.{0:MM}.{0:dd}.{1}' -f $d,$sec"`) do set QADGNUPLOTLIB_VERSION=%%V
+&gt; "$(ProjectDir)generated\qadgnuplotlib_version.h" echo #pragma once
+&gt;&gt; "$(ProjectDir)generated\qadgnuplotlib_version.h" echo.
+&gt;&gt; "$(ProjectDir)generated\qadgnuplotlib_version.h" echo #define QADGNUPLOTLIB_VERSION_STRING "%QADGNUPLOTLIB_VERSION%"
+&gt;&gt; "$(ProjectDir)generated\qadgnuplotlib_version.h" echo #define QADGNUPLOTLIB_COPYRIGHT_STRING "Copyright (c) 2026 David Duchet"</Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)generated;$(ProjectDir)gnuplot-main\src;$(ProjectDir)gnuplot-main\src\win;$(ProjectDir)gnuplot-main;$(ProjectDir)gnuplot-main\term;$(ProjectDir)lunasvg\include;$(ProjectDir)lunasvg\source;$(ProjectDir)lunasvg\plutovg\include;$(ProjectDir)lunasvg\plutovg\source;$(ProjectDir)base64;$(ProjectDir)miniz;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>HAVE_CONFIG_H;__MSC__;UNICODE;_UNICODE;USE_MOUSE;PIPES;GNUPLOT_HISTORY;WGP_CONSOLE;DEVELOPMENT_VERSION;GNUPLOT_SHARE_DIR="share";GNUPLOT_PS_DIR="share\PostScript";GNUPLOT_JS_DIR="share\js";PLUTOVG_BUILD_STATIC;LUNASVG_BUILD_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>4267;5287;4828;4129;4018;4244;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName).lib</OutputFile>
+      <LinkTimeCodeGeneration>
+      </LinkTimeCodeGeneration>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="base64\base64.cpp" />
+    <ClCompile Include="gnuplot-main\src\alloc.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\amos_airy.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\axis.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\bitmap.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\boundary.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\breaders.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\color.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\command.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\complexfun.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\contour.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\datablock.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\dynarray.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\encoding.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\eval.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\external.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\filters.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\fit.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\gadgets.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\getcolor.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\gplocale.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\graph3d.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\graphics.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\help.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\hidden3d.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\history.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\internal.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\interpol.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\jitter.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\libcerf.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\loadpath.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\marks.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\matrix.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\misc.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\mouse.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\multiplot.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\parse.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\plot2d.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\plot3d.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\pm3d.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\readline.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\save.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\scanner.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\set.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\specfun.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\standard.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\stats.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\stdfn.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\tables.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\tabulate.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\time.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\unset.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\util.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\util3d.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\voxelgrid.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\vplot.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\watch.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\xdg.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\version.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\win\wgnuplib.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\win\wgraph.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\win\wprinter.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\win\wtext.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\win\screenbuf.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\win\wpause.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\win\wmenu.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\gpexecute.c">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\win\wgdiplus.cpp">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\win\wd2d.cpp">
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\win\wredirect.cpp">
+    </ClCompile>
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-blend.c" />
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-canvas.c" />
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-font.c" />
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-ft-math.c" />
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-ft-raster.c" />
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-ft-stroker.c" />
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-matrix.c" />
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-paint.c" />
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-path.c" />
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-rasterize.c" />
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-surface.c" />
+    <ClCompile Include="lunasvg\source\graphics.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)lunasvg_graphics.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)lunasvg_graphics.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="lunasvg\source\lunasvg.cpp" />
+    <ClCompile Include="lunasvg\source\svgelement.cpp" />
+    <ClCompile Include="lunasvg\source\svggeometryelement.cpp" />
+    <ClCompile Include="lunasvg\source\svglayoutstate.cpp" />
+    <ClCompile Include="lunasvg\source\svgpaintelement.cpp" />
+    <ClCompile Include="lunasvg\source\svgparser.cpp" />
+    <ClCompile Include="lunasvg\source\svgproperty.cpp" />
+    <ClCompile Include="lunasvg\source\svgrenderstate.cpp" />
+    <ClCompile Include="lunasvg\source\svgtextelement.cpp" />
+    <ClCompile Include="miniz\miniz.c" />
+    <ClCompile Include="src\datafile_glue.c" />
+    <ClCompile Include="src\helpers.cpp" />
+    <ClCompile Include="src\context.cpp" />
+    <ClCompile Include="src\plot_glue.c">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="src\qadgnuplotlib.c">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="src\show_glue.c" />
+    <ClCompile Include="src\term.c" />
+    <ClCompile Include="src\winmain_glue.c">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="base64\base64.h" />
+    <ClInclude Include="gnuplot-main\src\alloc.h" />
+    <ClInclude Include="gnuplot-main\src\amos_airy.h" />
+    <ClInclude Include="gnuplot-main\src\axis.h" />
+    <ClInclude Include="gnuplot-main\src\bitmap.h" />
+    <ClInclude Include="gnuplot-main\src\boundary.h" />
+    <ClInclude Include="gnuplot-main\src\breaders.h" />
+    <ClInclude Include="gnuplot-main\src\color.h" />
+    <ClInclude Include="gnuplot-main\src\command.h" />
+    <ClInclude Include="gnuplot-main\src\complexfun.h" />
+    <ClInclude Include="gnuplot-main\src\contour.h" />
+    <ClInclude Include="gnuplot-main\src\datablock.h" />
+    <ClInclude Include="gnuplot-main\src\datafile.h" />
+    <ClInclude Include="gnuplot-main\src\dynarray.h" />
+    <ClInclude Include="gnuplot-main\src\encoding.h" />
+    <ClInclude Include="gnuplot-main\src\eval.h" />
+    <ClInclude Include="gnuplot-main\src\external.h" />
+    <ClInclude Include="gnuplot-main\src\filters.h" />
+    <ClInclude Include="gnuplot-main\src\fit.h" />
+    <ClInclude Include="gnuplot-main\src\gadgets.h" />
+    <ClInclude Include="gnuplot-main\src\getcolor.h" />
+    <ClInclude Include="gnuplot-main\src\gp_hist.h" />
+    <ClInclude Include="gnuplot-main\src\gp_time.h" />
+    <ClInclude Include="gnuplot-main\src\gp_types.h" />
+    <ClInclude Include="gnuplot-main\src\gpexecute.h" />
+    <ClInclude Include="gnuplot-main\src\gplocale.h" />
+    <ClInclude Include="gnuplot-main\src\gplt_x11.h" />
+    <ClInclude Include="gnuplot-main\src\graph3d.h" />
+    <ClInclude Include="gnuplot-main\src\graphics.h" />
+    <ClInclude Include="gnuplot-main\src\help.h" />
+    <ClInclude Include="gnuplot-main\src\hidden3d.h" />
+    <ClInclude Include="gnuplot-main\src\internal.h" />
+    <ClInclude Include="gnuplot-main\src\interpol.h" />
+    <ClInclude Include="gnuplot-main\src\jitter.h" />
+    <ClInclude Include="gnuplot-main\src\libcerf.h" />
+    <ClInclude Include="gnuplot-main\src\loadpath.h" />
+    <ClInclude Include="gnuplot-main\src\marching_cubes.h" />
+    <ClInclude Include="gnuplot-main\src\marks.h" />
+    <ClInclude Include="gnuplot-main\src\matrix.h" />
+    <ClInclude Include="gnuplot-main\src\misc.h" />
+    <ClInclude Include="gnuplot-main\src\mouse.h" />
+    <ClInclude Include="gnuplot-main\src\mousecmn.h" />
+    <ClInclude Include="gnuplot-main\src\multiplot.h" />
+    <ClInclude Include="gnuplot-main\src\parse.h" />
+    <ClInclude Include="gnuplot-main\src\plot.h" />
+    <ClInclude Include="gnuplot-main\src\plot2d.h" />
+    <ClInclude Include="gnuplot-main\src\plot3d.h" />
+    <ClInclude Include="gnuplot-main\src\pm3d.h" />
+    <ClInclude Include="gnuplot-main\src\qt_table.h" />
+    <ClInclude Include="gnuplot-main\src\readline.h" />
+    <ClInclude Include="gnuplot-main\src\save.h" />
+    <ClInclude Include="gnuplot-main\src\scanner.h" />
+    <ClInclude Include="gnuplot-main\src\setshow.h" />
+    <ClInclude Include="gnuplot-main\src\specfun.h" />
+    <ClInclude Include="gnuplot-main\src\standard.h" />
+    <ClInclude Include="gnuplot-main\src\stats.h" />
+    <ClInclude Include="gnuplot-main\src\stdfn.h" />
+    <ClInclude Include="gnuplot-main\src\syscfg.h" />
+    <ClInclude Include="gnuplot-main\src\tables.h" />
+    <ClInclude Include="gnuplot-main\src\tabulate.h" />
+    <ClInclude Include="gnuplot-main\src\term.h" />
+    <ClInclude Include="gnuplot-main\src\term_api.h" />
+    <ClInclude Include="gnuplot-main\src\util.h" />
+    <ClInclude Include="gnuplot-main\src\util3d.h" />
+    <ClInclude Include="gnuplot-main\src\version.h" />
+    <ClInclude Include="gnuplot-main\src\voxelgrid.h" />
+    <ClInclude Include="gnuplot-main\src\vplot.h" />
+    <ClInclude Include="gnuplot-main\src\watch.h" />
+    <ClInclude Include="gnuplot-main\src\xdg.h" />
+    <ClInclude Include="gnuplot-main\src\win\screenbuf.h" />
+    <ClInclude Include="gnuplot-main\src\win\wcommon.h" />
+    <ClInclude Include="gnuplot-main\src\win\wd2d.h" />
+    <ClInclude Include="gnuplot-main\src\win\wgdiplus.h" />
+    <ClInclude Include="gnuplot-main\src\win\wgnuplib.h" />
+    <ClInclude Include="gnuplot-main\src\win\winmain.h" />
+    <ClInclude Include="gnuplot-main\src\win\wresourc.h" />
+    <ClInclude Include="gnuplot-main\src\win\wtext.h" />
+    <ClInclude Include="lunasvg\include\lunasvg.h" />
+    <ClInclude Include="lunasvg\plutovg\include\plutovg.h" />
+    <ClInclude Include="lunasvg\plutovg\source\plutovg-ft-math.h" />
+    <ClInclude Include="lunasvg\plutovg\source\plutovg-ft-raster.h" />
+    <ClInclude Include="lunasvg\plutovg\source\plutovg-ft-stroker.h" />
+    <ClInclude Include="lunasvg\plutovg\source\plutovg-ft-types.h" />
+    <ClInclude Include="lunasvg\plutovg\source\plutovg-private.h" />
+    <ClInclude Include="lunasvg\plutovg\source\plutovg-stb-image-write.h" />
+    <ClInclude Include="lunasvg\plutovg\source\plutovg-stb-image.h" />
+    <ClInclude Include="lunasvg\plutovg\source\plutovg-stb-truetype.h" />
+    <ClInclude Include="lunasvg\plutovg\source\plutovg-utils.h" />
+    <ClInclude Include="lunasvg\source\graphics.h" />
+    <ClInclude Include="lunasvg\source\svgelement.h" />
+    <ClInclude Include="lunasvg\source\svggeometryelement.h" />
+    <ClInclude Include="lunasvg\source\svglayoutstate.h" />
+    <ClInclude Include="lunasvg\source\svgpaintelement.h" />
+    <ClInclude Include="lunasvg\source\svgparserutils.h" />
+    <ClInclude Include="lunasvg\source\svgproperty.h" />
+    <ClInclude Include="lunasvg\source\svgrenderstate.h" />
+    <ClInclude Include="lunasvg\source\svgtextelement.h" />
+    <ClInclude Include="miniz\miniz.h" />
+    <ClInclude Include="src\qadgnuplotlib.h" />
+    <ClInclude Include="src\qadgnuplotlib.hpp" />
+    <ClInclude Include="src\term.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gnuplot-main\term\ai.trm" />
+    <None Include="gnuplot-main\term\aquaterm.trm" />
+    <None Include="gnuplot-main\term\be.trm" />
+    <None Include="gnuplot-main\term\block.trm" />
+    <None Include="gnuplot-main\term\caca.trm" />
+    <None Include="gnuplot-main\term\cairo.trm" />
+    <None Include="gnuplot-main\term\canvas.trm" />
+    <None Include="gnuplot-main\term\cgm.trm" />
+    <None Include="gnuplot-main\term\context.trm" />
+    <None Include="gnuplot-main\term\corel.trm" />
+    <None Include="gnuplot-main\term\debug.trm" />
+    <None Include="gnuplot-main\term\djsvga.trm" />
+    <None Include="gnuplot-main\term\dumb.trm" />
+    <None Include="gnuplot-main\term\dxf.trm" />
+    <None Include="gnuplot-main\term\dxy.trm" />
+    <None Include="gnuplot-main\term\eepic.trm" />
+    <None Include="gnuplot-main\term\emf.trm" />
+    <None Include="gnuplot-main\term\epson.trm" />
+    <None Include="gnuplot-main\term\estimate.trm" />
+    <None Include="gnuplot-main\term\excl.trm" />
+    <None Include="gnuplot-main\term\fig.trm" />
+    <None Include="gnuplot-main\term\gd.trm" />
+    <None Include="gnuplot-main\term\ggi.trm" />
+    <None Include="gnuplot-main\term\gpic.trm" />
+    <None Include="gnuplot-main\term\grass.trm" />
+    <None Include="gnuplot-main\term\hp2648.trm" />
+    <None Include="gnuplot-main\term\hp26.trm" />
+    <None Include="gnuplot-main\term\hp500c.trm" />
+    <None Include="gnuplot-main\term\hpgl.trm" />
+    <None Include="gnuplot-main\term\hpljii.trm" />
+    <None Include="gnuplot-main\term\hppj.trm" />
+    <None Include="gnuplot-main\term\imagen.trm" />
+    <None Include="gnuplot-main\term\kyo.trm" />
+    <None Include="gnuplot-main\term\latex.trm" />
+    <None Include="gnuplot-main\term\linux-vgagl.trm" />
+    <None Include="gnuplot-main\term\lua.trm" />
+    <None Include="gnuplot-main\term\metafont.trm" />
+    <None Include="gnuplot-main\term\metapost.trm" />
+    <None Include="gnuplot-main\term\mif.trm" />
+    <None Include="gnuplot-main\term\pbm.trm" />
+    <None Include="gnuplot-main\term\pc.trm" />
+    <None Include="gnuplot-main\term\pict2e.trm" />
+    <None Include="gnuplot-main\term\pm.trm" />
+    <None Include="gnuplot-main\term\post.trm" />
+    <None Include="gnuplot-main\term\pslatex.trm" />
+    <None Include="gnuplot-main\term\pstricks.trm" />
+    <None Include="gnuplot-main\term\qms.trm" />
+    <None Include="gnuplot-main\term\qt.trm" />
+    <None Include="gnuplot-main\term\regis.trm" />
+    <None Include="gnuplot-main\term\svg.trm" />
+    <None Include="gnuplot-main\term\t410x.trm" />
+    <None Include="gnuplot-main\term\tek.trm" />
+    <None Include="gnuplot-main\term\texdraw.trm" />
+    <None Include="gnuplot-main\term\tgif.trm" />
+    <None Include="gnuplot-main\term\tkcanvas.trm" />
+    <None Include="gnuplot-main\term\tpic.trm" />
+    <None Include="gnuplot-main\term\webp.trm" />
+    <ClInclude Include="gnuplot-main\term\win.trm">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <None Include="gnuplot-main\term\wxt.trm" />
+    <None Include="gnuplot-main\term\x11.trm" />
+    <None Include="gnuplot-main\term\xlib.trm" />
+    <None Include="src\qad.trm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="lunasvg\plutovg\source\FTL.TXT" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

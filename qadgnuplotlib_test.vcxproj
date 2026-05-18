@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{44A5AB42-D899-4345-9D6F-D65B27EE3392}</ProjectGuid>
+    <RootNamespace>qadgnuplotlib_test</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(ProjectDir)build\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)build\obj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>qadgnuplotlib_test</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(ProjectDir)build\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)build\obj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>qadgnuplotlib_test</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)generated;$(ProjectDir)gnuplot-main\src;$(ProjectDir)gnuplot-main\src\win;$(ProjectDir)gnuplot-main;$(ProjectDir)gnuplot-main\term;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>HAVE_CONFIG_H;__MSC__;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>4267;5287;4828;4129;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;gdi32.lib;gdiplus.lib;d2d1.lib;dwrite.lib;version.lib;comdlg32.lib;comctl32.lib;shell32.lib;htmlhelp.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)generated;$(ProjectDir)gnuplot-main\src;$(ProjectDir)gnuplot-main\src\win;$(ProjectDir)gnuplot-main;$(ProjectDir)gnuplot-main\term;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>HAVE_CONFIG_H;__MSC__;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>4267;5287;4828;4129;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;gdi32.lib;gdiplus.lib;d2d1.lib;dwrite.lib;version.lib;comdlg32.lib;comctl32.lib;shell32.lib;htmlhelp.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LinkTimeCodeGeneration>
+      </LinkTimeCodeGeneration>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectReference Include="qadgnuplotlib.vcxproj">
+      <Project>{7a5c6135-3bb2-46b2-8d19-772973418a6c}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\test.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

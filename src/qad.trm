@@ -1,0 +1,1169 @@
+/*
+    qadgnuplotlib
+    Copyright (c) 2026 David Duchet
+
+    Licensed under the MIT License.
+    See: licences/QADGNUPLOTLIB-MIT.txt
+
+    Purpose:
+        Defines the qad gnuplot terminal, capturing SVG output and routing it through the qadgnuplotlib rendering pipeline.
+*/
+
+/* Hello, Emacs, this is -*-C-*- */
+
+/*
+ * GNUPLOT - qad.trm
+ *
+ * QAD terminal:
+ *   wraps svg.trm
+ *   captures SVG output in memory
+ *   currently writes captured SVG back to gpoutfile
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdarg.h>
+
+
+#ifdef TERM_REGISTER
+register_term(qad)
+#endif
+
+
+/* ============================================================
+ * Rename SVG symbols
+ * ============================================================ */
+
+ /* Public terminal callbacks */
+#define SVG_options              QAD_SVG_options
+#define SVG_init                 QAD_SVG_init
+#define SVG_graphics             QAD_SVG_graphics
+#define SVG_text                 QAD_SVG_text
+#define SVG_linetype             QAD_SVG_linetype
+#define SVG_dashtype             QAD_SVG_dashtype
+#define SVG_move                 QAD_SVG_move
+#define SVG_vector               QAD_SVG_vector
+#define SVG_put_text             QAD_SVG_put_text
+#define SVG_reset                QAD_SVG_reset
+#define SVG_justify_text         QAD_SVG_justify_text
+#define SVG_text_angle           QAD_SVG_text_angle
+#define SVG_point                QAD_SVG_point
+#define SVG_set_font             QAD_SVG_set_font
+#define SVG_fillbox              QAD_SVG_fillbox
+#define SVG_linewidth            QAD_SVG_linewidth
+#define SVG_make_palette         QAD_SVG_make_palette
+#define SVG_previous_palette     QAD_SVG_previous_palette
+#define SVG_set_color            QAD_SVG_set_color
+#define SVG_filled_polygon       QAD_SVG_filled_polygon
+#define SVG_layer                QAD_SVG_layer
+#define SVG_path                 QAD_SVG_path
+#define SVG_hypertext            QAD_SVG_hypertext
+#define SVG_boxed_text           QAD_SVG_boxed_text
+
+#ifdef WRITE_PNG_IMAGE
+#define SVG_image                QAD_SVG_image
+#endif
+
+/* Enhanced text callbacks */
+#define ENHsvg_OPEN              QAD_ENHsvg_OPEN
+#define ENHsvg_FLUSH             QAD_ENHsvg_FLUSH
+#define ENHsvg_put_text          QAD_ENHsvg_put_text
+#define ENHsvg_writec            QAD_ENHsvg_writec
+
+/* Static state / helpers inside svg.trm */
+#define SVG_red                  QAD_SVG_red
+#define SVG_green                QAD_SVG_green
+#define SVG_blue                 QAD_SVG_blue
+#define SVG_alpha                QAD_SVG_alpha
+#define SVG_color_mode           QAD_SVG_color_mode
+#define SVG_rgb                  QAD_SVG_rgb
+#define SVG_linecolor            QAD_SVG_linecolor
+#define SVG_name                 QAD_SVG_name
+#define SVG_description          QAD_SVG_description
+#define SVG_scriptdir            QAD_SVG_scriptdir
+#define SVG_mouseable            QAD_SVG_mouseable
+#define SVG_standalone           QAD_SVG_standalone
+#define SVG_domterm              QAD_SVG_domterm
+#define SVG_emit_doctype         QAD_SVG_emit_doctype
+#define SVG_animate              QAD_SVG_animate
+#define SVG_groupFilledIsOpen    QAD_SVG_groupFilledIsOpen
+#define SVG_inTextBox            QAD_SVG_inTextBox
+#define SVG_PEN                  QAD_SVG_PEN
+#define SVG_xSize                QAD_SVG_xSize
+#define SVG_ySize                QAD_SVG_ySize
+#define SVG_fixed_size           QAD_SVG_fixed_size
+#define SVG_xLast                QAD_SVG_xLast
+#define SVG_yLast                QAD_SVG_yLast
+#define SVG_LineType             QAD_SVG_LineType
+#define SVG_LineWidth            QAD_SVG_LineWidth
+#define SVG_linewidth_factor     QAD_SVG_linewidth_factor
+#define SVG_dashlength           QAD_SVG_dashlength
+#define SVG_linecap              QAD_SVG_linecap
+#define SVG_TextAngle            QAD_SVG_TextAngle
+#define SVG_TextJust             QAD_SVG_TextJust
+#define SVG_fontNameDef          QAD_SVG_fontNameDef
+#define SVG_fontStyleDef         QAD_SVG_fontStyleDef
+#define SVG_fontWeightDef        QAD_SVG_fontWeightDef
+#define SVG_fontSizeDef          QAD_SVG_fontSizeDef
+#define SVG_fontNameCur          QAD_SVG_fontNameCur
+#define SVG_fontStyleCur         QAD_SVG_fontStyleCur
+#define SVG_fontWeightCur        QAD_SVG_fontWeightCur
+#define SVG_fontSizeCur          QAD_SVG_fontSizeCur
+#define SVG_fontscale            QAD_SVG_fontscale
+#define SVG_groupIsOpen          QAD_SVG_groupIsOpen
+#define SVG_pathIsOpen           QAD_SVG_pathIsOpen
+#define SVG_path_count           QAD_SVG_path_count
+#define SVG_fillPattern          QAD_SVG_fillPattern
+#define SVG_fillPatternIndex     QAD_SVG_fillPatternIndex
+#define SVG_pens                 QAD_SVG_pens
+#define SVG_background           QAD_SVG_background
+#define SVG_plotno               QAD_SVG_plotno
+#define SVG_gridline             QAD_SVG_gridline
+#define SVG_hasgrid              QAD_SVG_hasgrid
+#define SVG_fontAscent           QAD_SVG_fontAscent
+#define SVG_fontDescent          QAD_SVG_fontDescent
+#define SVG_fontLeading          QAD_SVG_fontLeading
+#define SVG_fontAvWidth          QAD_SVG_fontAvWidth
+
+#define SVG_defaultdashpattern   QAD_SVG_defaultdashpattern
+#define SVG_axis_dashpattern     QAD_SVG_axis_dashpattern
+#define SVG_dasharray            QAD_SVG_dasharray
+#define SVG_dashpattern          QAD_SVG_dashpattern
+
+#define SVG_hypertext_fontSize   QAD_SVG_hypertext_fontSize
+#define SVG_hypertext_fontName   QAD_SVG_hypertext_fontName
+#define SVG_hypertext_fontStyle  QAD_SVG_hypertext_fontStyle
+#define SVG_hypertext_fontWeight QAD_SVG_hypertext_fontWeight
+#define SVG_hypertext_text       QAD_SVG_hypertext_text
+
+#define SVG_Pen_RealID           QAD_SVG_Pen_RealID
+#define SVG_GroupOpen            QAD_SVG_GroupOpen
+#define SVG_GroupClose           QAD_SVG_GroupClose
+#define SVG_PathOpen             QAD_SVG_PathOpen
+#define SVG_PathClose            QAD_SVG_PathClose
+#define SVG_AddSpaceOrNewline    QAD_SVG_AddSpaceOrNewline
+#define SVG_SetFont              QAD_SVG_SetFont
+#define SVG_GroupFilledOpen      QAD_SVG_GroupFilledOpen
+#define SVG_GroupFilledClose     QAD_SVG_GroupFilledClose
+#define SVG_StyleColor           QAD_SVG_StyleColor
+#define SVG_StyleFillColor       QAD_SVG_StyleFillColor
+#define SVG_DefineFillPattern    QAD_SVG_DefineFillPattern
+#define SVG_MoveForced           QAD_SVG_MoveForced
+#define SVG_local_reset          QAD_SVG_local_reset
+#define SVG_put_CDATA            QAD_SVG_put_CDATA
+#define SVG_write_preamble       QAD_SVG_write_preamble
+#define svg_mouse_param          qad_svg_mouse_param
+
+#define ENHsvg_string_state      QAD_ENHsvg_string_state
+#define ENHsvg_x_offset          QAD_ENHsvg_x_offset
+#define ENHsvg_preserve_spaces   QAD_ENHsvg_preserve_spaces
+#define ENHsvg_base              QAD_ENHsvg_base
+#define ENHsvg_opened_string     QAD_ENHsvg_opened_string
+#define ENHsvg_charcount         QAD_ENHsvg_charcount
+
+
+/* ============================================================
+ * TERM_PROTO
+ * Do NOT include svg.trm here.
+ * It will be included once in TERM_BODY, where TERM_PROTO is also
+ * usually defined during gnuplot's first pass.
+ * ============================================================ */
+
+#ifdef TERM_PROTO
+
+    TERM_PUBLIC void QAD_options(void);
+TERM_PUBLIC void QAD_init(void);
+TERM_PUBLIC void QAD_graphics(void);
+TERM_PUBLIC void QAD_text(void);
+TERM_PUBLIC void QAD_reset(void);
+
+#endif /* TERM_PROTO */
+
+
+#ifndef TERM_PROTO_ONLY
+
+/* ============================================================
+ * TERM_BODY
+ * ============================================================ */
+
+#ifdef TERM_BODY
+
+typedef struct QAD_bytebuf {
+    unsigned char* data;
+    size_t size;
+    size_t cap;
+    int failed;
+} QAD_bytebuf;
+
+static QAD_bytebuf QAD_svg_buf;
+
+
+typedef enum QAD_format {
+    QAD_FORMAT_SVG = 0,
+    QAD_FORMAT_PNG,
+    QAD_FORMAT_JPG,
+    QAD_FORMAT_BMP,
+    QAD_FORMAT_PDF,
+    QAD_FORMAT_RGBA,
+    QAD_FORMAT_RGB
+} QAD_format;
+
+static QAD_format QAD_output_format = QAD_FORMAT_SVG;
+static int QAD_jpg_quality = 90;
+static double QAD_pdf_dpi = 300.0;
+static double QAD_pdf_page_width_pt = 0.0;
+static double QAD_pdf_page_height_pt = 0.0;
+static unsigned QAD_pdf_render_width_px = 0;
+static unsigned QAD_pdf_render_height_px = 0;
+
+/* PDF defaults:
+ *   A4 portrait = 210 mm x 297 mm.
+ *   Common office margins = 1 inch on both sides.
+ *   Available width = 8.2677 - 2 = 6.2677 inch.
+ *   Keep gnuplot/pdfcairo's familiar 5:3 default plot aspect.
+ */
+#define QAD_PDF_DEFAULT_WIDTH_IN   6.2677165354
+#define QAD_PDF_DEFAULT_HEIGHT_IN  (QAD_PDF_DEFAULT_WIDTH_IN * 3.0 / 5.0)
+#define QAD_PDF_POINTS_PER_INCH    72.0
+
+/* Implemented in src/helpers.cpp */
+extern int qadgnuplotlib_svg_to_raw_rgba_lunasvg(
+    const char* svg_text,
+    unsigned width_px,
+    unsigned height_px,
+    unsigned char** out_rgba,
+    size_t* out_rgba_size);
+
+extern int qadgnuplotlib_svg_to_raw_rgb_lunasvg(
+    const char* svg_text,
+    unsigned width_px,
+    unsigned height_px,
+    unsigned char background_r,
+    unsigned char background_g,
+    unsigned char background_b,
+    unsigned char** out_rgb,
+    size_t* out_rgb_size);
+
+extern int qadgnuplotlib_svg_to_png_memory_lunasvg(
+    const char* svg_text,
+    unsigned width_px,
+    unsigned height_px,
+    unsigned char background_r,
+    unsigned char background_g,
+    unsigned char background_b,
+    unsigned char** out_data,
+    size_t* out_size);
+
+extern int qadgnuplotlib_svg_to_jpg_memory_lunasvg(
+    const char* svg_text,
+    unsigned width_px,
+    unsigned height_px,
+    unsigned char background_r,
+    unsigned char background_g,
+    unsigned char background_b,
+    int quality,
+    unsigned char** out_data,
+    size_t* out_size);
+
+extern int qadgnuplotlib_write_png_memory(
+    unsigned width,
+    unsigned height,
+    unsigned components,
+    const unsigned char* raw,
+    unsigned char** out_data,
+    size_t* out_size);
+
+extern int qadgnuplotlib_write_jpg_memory(
+    unsigned width,
+    unsigned height,
+    unsigned components,
+    const unsigned char* raw,
+    int quality,
+    unsigned char** out_data,
+    size_t* out_size);
+
+extern int qadgnuplotlib_write_bmp_memory(
+    unsigned width,
+    unsigned height,
+    unsigned components,
+    const unsigned char* raw,
+    unsigned char** out_data,
+    size_t* out_size);
+
+extern int qadgnuplotlib_make_raster_pdf_from_raw_rgb(
+    unsigned image_width_px,
+    unsigned image_height_px,
+    double page_width_pt,
+    double page_height_pt,
+    const unsigned char* raw_rgb,
+    size_t raw_rgb_size,
+    unsigned char** out_pdf,
+    size_t* out_pdf_size);
+
+
+static void
+QAD_buf_clear(QAD_bytebuf* b)
+{
+    if (!b)
+        return;
+
+    b->size = 0;
+    b->failed = 0;
+}
+
+
+static void
+QAD_buf_free(QAD_bytebuf* b)
+{
+    if (!b)
+        return;
+
+    free(b->data);
+    b->data = NULL;
+    b->size = 0;
+    b->cap = 0;
+    b->failed = 0;
+}
+
+
+static int
+QAD_buf_reserve(QAD_bytebuf* b, size_t extra)
+{
+    size_t need;
+    size_t new_cap;
+    unsigned char* p;
+
+    if (!b || b->failed)
+        return 1;
+
+    need = b->size + extra;
+
+    if (need <= b->cap)
+        return 0;
+
+    new_cap = b->cap ? b->cap * 2 : 16384;
+
+    while (new_cap < need) {
+        size_t doubled = new_cap * 2;
+
+        if (doubled <= new_cap) {
+            b->failed = 1;
+            return 1;
+        }
+
+        new_cap = doubled;
+    }
+
+    p = (unsigned char*)realloc(b->data, new_cap);
+
+    if (!p) {
+        b->failed = 1;
+        return 1;
+    }
+
+    b->data = p;
+    b->cap = new_cap;
+
+    return 0;
+}
+
+
+static int
+QAD_buf_write(QAD_bytebuf* b, const void* data, size_t len)
+{
+    if (!data && len != 0)
+        return 1;
+
+    if (QAD_buf_reserve(b, len))
+        return 1;
+
+    if (len != 0) {
+        memcpy(b->data + b->size, data, len);
+        b->size += len;
+    }
+
+    return 0;
+}
+
+
+static int
+QAD_buf_vprintf(QAD_bytebuf* b, const char* fmt, va_list ap)
+{
+    va_list ap2;
+    int n;
+
+    if (!b || !fmt || b->failed)
+        return -1;
+
+    va_copy(ap2, ap);
+    n = vsnprintf(NULL, 0, fmt, ap2);
+    va_end(ap2);
+
+    if (n < 0) {
+        b->failed = 1;
+        return -1;
+    }
+
+    if (QAD_buf_reserve(b, (size_t)n + 1))
+        return -1;
+
+    vsnprintf((char*)b->data + b->size, (size_t)n + 1, fmt, ap);
+    b->size += (size_t)n;
+
+    return n;
+}
+
+
+/* ============================================================
+ * SVG stdio capture
+ * ============================================================ */
+
+static int
+QAD_svg_fprintf(FILE* stream, const char* fmt, ...)
+{
+    va_list ap;
+    int r;
+
+    (void)stream;
+
+    va_start(ap, fmt);
+    r = QAD_buf_vprintf(&QAD_svg_buf, fmt, ap);
+    va_end(ap);
+
+    return r;
+}
+
+
+static int
+QAD_svg_fputs(const char* s, FILE* stream)
+{
+    (void)stream;
+
+    if (!s)
+        return EOF;
+
+    return QAD_buf_write(&QAD_svg_buf, s, strlen(s)) ? EOF : 0;
+}
+
+
+static int
+QAD_svg_fputc(int c, FILE* stream)
+{
+    unsigned char ch = (unsigned char)c;
+
+    (void)stream;
+
+    return QAD_buf_write(&QAD_svg_buf, &ch, 1) ? EOF : c;
+}
+
+
+static int
+QAD_svg_fflush(FILE* stream)
+{
+    (void)stream;
+    return 0;
+}
+
+
+/* ============================================================
+ * Include svg.trm exactly once
+ * ============================================================ */
+
+#pragma push_macro("fprintf")
+#pragma push_macro("fputs")
+#pragma push_macro("fputc")
+#pragma push_macro("fflush")
+
+#ifdef fprintf
+#undef fprintf
+#endif
+#ifdef fputs
+#undef fputs
+#endif
+#ifdef fputc
+#undef fputc
+#endif
+#ifdef fflush
+#undef fflush
+#endif
+
+#define fprintf QAD_svg_fprintf
+#define fputs   QAD_svg_fputs
+#define fputc   QAD_svg_fputc
+#define fflush  QAD_svg_fflush
+
+#include "../gnuplot-main/term/svg.trm"
+
+#undef fprintf
+#undef fputs
+#undef fputc
+#undef fflush
+
+#pragma pop_macro("fflush")
+#pragma pop_macro("fputc")
+#pragma pop_macro("fputs")
+#pragma pop_macro("fprintf")
+
+
+ /* ============================================================
+  * QAD finalizer
+  * First version: write captured SVG as-is.
+  * ============================================================ */
+
+static int
+QAD_write_bytes_to_gpoutfile(const unsigned char* data, size_t size)
+{
+    if (!data || size == 0 || !gpoutfile)
+        return 1;
+
+    if (fwrite(data, 1, size, gpoutfile) != size)
+        return 1;
+
+    fflush(gpoutfile);
+    return 0;
+}
+
+
+static char*
+QAD_svg_make_c_string(const unsigned char* svg, size_t svg_size)
+{
+    char* s;
+
+    if (!svg || svg_size == 0)
+        return NULL;
+
+    s = (char*)malloc(svg_size + 1);
+    if (!s)
+        return NULL;
+
+    memcpy(s, svg, svg_size);
+    s[svg_size] = '\0';
+    return s;
+}
+
+
+static unsigned
+QAD_pixel_width(void)
+{
+    return (unsigned)((QAD_SVG_xSize + (unsigned)(SVG_SCALE / 2)) / (unsigned)SVG_SCALE);
+}
+
+
+static unsigned
+QAD_pixel_height(void)
+{
+    return (unsigned)((QAD_SVG_ySize + (unsigned)(SVG_SCALE / 2)) / (unsigned)SVG_SCALE);
+}
+
+
+static unsigned
+QAD_round_to_uint(double v)
+{
+    if (v <= 0.0)
+        return 0;
+    return (unsigned)(v + 0.5);
+}
+
+
+static void
+QAD_set_pdf_physical_size_pt(double width_pt, double height_pt)
+{
+    QAD_pdf_page_width_pt = width_pt;
+    QAD_pdf_page_height_pt = height_pt;
+
+    QAD_pdf_render_width_px = QAD_round_to_uint((width_pt * QAD_pdf_dpi) / QAD_PDF_POINTS_PER_INCH);
+    QAD_pdf_render_height_px = QAD_round_to_uint((height_pt * QAD_pdf_dpi) / QAD_PDF_POINTS_PER_INCH);
+}
+
+
+static void
+QAD_apply_default_pdf_size_if_needed(void)
+{
+    if (QAD_output_format != QAD_FORMAT_PDF)
+        return;
+
+    if (QAD_pdf_page_width_pt <= 0.0 || QAD_pdf_page_height_pt <= 0.0) {
+        QAD_set_pdf_physical_size_pt(
+            QAD_PDF_DEFAULT_WIDTH_IN * QAD_PDF_POINTS_PER_INCH,
+            QAD_PDF_DEFAULT_HEIGHT_IN * QAD_PDF_POINTS_PER_INCH);
+    } else {
+        /* dpi may have appeared after size in the command line. */
+        QAD_set_pdf_physical_size_pt(
+            QAD_pdf_page_width_pt,
+            QAD_pdf_page_height_pt);
+    }
+}
+
+
+static int
+QAD_finalize_output(const unsigned char* svg, size_t svg_size)
+{
+    char* svg_text = NULL;
+    unsigned width;
+    unsigned height;
+    unsigned char* raw = NULL;
+    size_t raw_size = 0;
+    unsigned char* encoded = NULL;
+    size_t encoded_size = 0;
+    int err = 1;
+
+    if (!svg || svg_size == 0 || !gpoutfile)
+        return 1;
+
+    if (QAD_output_format == QAD_FORMAT_SVG)
+        return QAD_write_bytes_to_gpoutfile(svg, svg_size);
+
+    svg_text = QAD_svg_make_c_string(svg, svg_size);
+    if (!svg_text)
+        goto done;
+
+    width = QAD_pixel_width();
+    height = QAD_pixel_height();
+
+    if (width == 0 || height == 0)
+        goto done;
+
+    switch (QAD_output_format) {
+    case QAD_FORMAT_PNG:
+        /* Use an opaque white background by default.
+         * If we write RGBA, most viewers show the transparent plot background
+         * as black, making black axes/text disappear. Raw alpha is still
+         * available through format rgba.
+         */
+        if (qadgnuplotlib_svg_to_png_memory_lunasvg(svg_text, width, height, 255, 255, 255, &encoded, &encoded_size))
+            goto done;
+        err = QAD_write_bytes_to_gpoutfile(encoded, encoded_size);
+        break;
+
+    case QAD_FORMAT_JPG:
+        if (qadgnuplotlib_svg_to_jpg_memory_lunasvg(svg_text, width, height, 255, 255, 255, QAD_jpg_quality, &encoded, &encoded_size))
+            goto done;
+        err = QAD_write_bytes_to_gpoutfile(encoded, encoded_size);
+        break;
+
+    case QAD_FORMAT_BMP:
+        if (qadgnuplotlib_svg_to_raw_rgb_lunasvg(svg_text, width, height, 255, 255, 255, &raw, &raw_size))
+            goto done;
+        if (qadgnuplotlib_write_bmp_memory(width, height, 3, raw, &encoded, &encoded_size))
+            goto done;
+        err = QAD_write_bytes_to_gpoutfile(encoded, encoded_size);
+        break;
+
+    case QAD_FORMAT_PDF:
+        if (qadgnuplotlib_svg_to_raw_rgb_lunasvg(svg_text, width, height, 255, 255, 255, &raw, &raw_size))
+            goto done;
+        {
+            double page_w = QAD_pdf_page_width_pt;
+            double page_h = QAD_pdf_page_height_pt;
+
+            if (page_w <= 0.0 || page_h <= 0.0) {
+                page_w = ((double)width * 72.0) / QAD_pdf_dpi;
+                page_h = ((double)height * 72.0) / QAD_pdf_dpi;
+            }
+
+            if (qadgnuplotlib_make_raster_pdf_from_raw_rgb(
+                width,
+                height,
+                page_w,
+                page_h,
+                raw,
+                raw_size,
+                &encoded,
+                &encoded_size))
+                goto done;
+        }
+        err = QAD_write_bytes_to_gpoutfile(encoded, encoded_size);
+        break;
+
+    case QAD_FORMAT_RGBA:
+        if (qadgnuplotlib_svg_to_raw_rgba_lunasvg(svg_text, width, height, &raw, &raw_size))
+            goto done;
+        err = QAD_write_bytes_to_gpoutfile(raw, raw_size);
+        break;
+
+    case QAD_FORMAT_RGB:
+        if (qadgnuplotlib_svg_to_raw_rgb_lunasvg(svg_text, width, height, 255, 255, 255, &raw, &raw_size))
+            goto done;
+        err = QAD_write_bytes_to_gpoutfile(raw, raw_size);
+        break;
+
+    case QAD_FORMAT_SVG:
+    default:
+        err = 1;
+        break;
+    }
+
+done:
+    free(svg_text);
+    free(raw);
+    free(encoded);
+    return err;
+}
+
+
+static void
+QAD_remove_tokens(int first, int count)
+{
+    int tail;
+
+    if (count <= 0 || first < 0 || first >= num_tokens)
+        return;
+
+    if (first + count > num_tokens)
+        count = num_tokens - first;
+
+    tail = num_tokens - (first + count) + 1; /* include sentinel token */
+    if (tail > 0)
+        memmove(&token[first], &token[first + count], (size_t)tail * sizeof(token[0]));
+
+    num_tokens -= count;
+}
+
+
+static void
+QAD_parse_private_options(void)
+{
+    int i = c_token;
+
+    QAD_output_format = QAD_FORMAT_SVG;
+    QAD_jpg_quality = 90;
+    QAD_pdf_dpi = 300.0;
+    QAD_pdf_page_width_pt = 0.0;
+    QAD_pdf_page_height_pt = 0.0;
+    QAD_pdf_render_width_px = 0;
+    QAD_pdf_render_height_px = 0;
+
+    /* First pass only discovers the output format.
+     * This lets "set term qad size 10cm,6cm format pdf" work even
+     * though size appears before format.
+     */
+    while (i < num_tokens) {
+        if (equals(i, "format") && i + 1 < num_tokens) {
+            if (equals(i + 1, "pdf"))
+                QAD_output_format = QAD_FORMAT_PDF;
+            else if (equals(i + 1, "svg"))
+                QAD_output_format = QAD_FORMAT_SVG;
+            else if (equals(i + 1, "png"))
+                QAD_output_format = QAD_FORMAT_PNG;
+            else if (equals(i + 1, "jpg") || equals(i + 1, "jpeg"))
+                QAD_output_format = QAD_FORMAT_JPG;
+            else if (equals(i + 1, "bmp"))
+                QAD_output_format = QAD_FORMAT_BMP;
+            else if (equals(i + 1, "rgba"))
+                QAD_output_format = QAD_FORMAT_RGBA;
+            else if (equals(i + 1, "rgb"))
+                QAD_output_format = QAD_FORMAT_RGB;
+        }
+        i++;
+    }
+
+    i = c_token;
+
+    while (i < num_tokens) {
+        if (equals(i, "format")) {
+            if (i + 1 >= num_tokens)
+                int_error(i, "qad: expecting output format");
+
+            if (equals(i + 1, "svg"))
+                QAD_output_format = QAD_FORMAT_SVG;
+            else if (equals(i + 1, "png"))
+                QAD_output_format = QAD_FORMAT_PNG;
+            else if (equals(i + 1, "jpg") || equals(i + 1, "jpeg"))
+                QAD_output_format = QAD_FORMAT_JPG;
+            else if (equals(i + 1, "bmp"))
+                QAD_output_format = QAD_FORMAT_BMP;
+            else if (equals(i + 1, "pdf"))
+                QAD_output_format = QAD_FORMAT_PDF;
+            else if (equals(i + 1, "rgba"))
+                QAD_output_format = QAD_FORMAT_RGBA;
+            else if (equals(i + 1, "rgb"))
+                QAD_output_format = QAD_FORMAT_RGB;
+            else
+                int_error(i + 1, "qad: unknown output format");
+
+            QAD_remove_tokens(i, 2);
+            continue;
+        }
+
+        if (almost_equals(i, "s$ize") && QAD_output_format == QAD_FORMAT_PDF) {
+            int saved = c_token;
+            float w = 0.0f;
+            float h = 0.0f;
+
+            c_token = i + 1;
+
+            /* For PDF, "size" is physical size, just like pdfcairo.
+             * No suffix means inches.  "cm" and "inches" are accepted.
+             * parse_term_size() returns dimensions in gp_resolution units;
+             * in practice gp_resolution is 72, i.e. PDF points.
+             */
+            parse_term_size(&w, &h, INCHES);
+
+            QAD_set_pdf_physical_size_pt((double)w, (double)h);
+
+            QAD_remove_tokens(i, c_token - i);
+            c_token = saved;
+            continue;
+        }
+
+        if (equals(i, "quality")) {
+            int saved = c_token;
+            c_token = i + 1;
+            QAD_jpg_quality = (int)real_expression();
+            if (QAD_jpg_quality < 1)
+                QAD_jpg_quality = 1;
+            if (QAD_jpg_quality > 100)
+                QAD_jpg_quality = 100;
+            QAD_remove_tokens(i, c_token - i);
+            c_token = saved;
+            continue;
+        }
+
+        if (equals(i, "dpi")) {
+            int saved = c_token;
+            c_token = i + 1;
+            QAD_pdf_dpi = real_expression();
+            if (QAD_pdf_dpi < 1.0)
+                QAD_pdf_dpi = 300.0;
+            QAD_remove_tokens(i, c_token - i);
+            c_token = saved;
+            continue;
+        }
+
+        if (equals(i, "pdfsize")) {
+            int saved = c_token;
+            float w = 0.0f;
+            float h = 0.0f;
+
+            c_token = i + 1;
+
+            /* Kept as a compatibility alias for the previous patch. */
+            parse_term_size(&w, &h, INCHES);
+
+            QAD_set_pdf_physical_size_pt((double)w, (double)h);
+
+            QAD_remove_tokens(i, c_token - i);
+            c_token = saved;
+            continue;
+        }
+
+        i++;
+    }
+}
+
+
+/* ============================================================
+ * QAD public callbacks
+ * ============================================================ */
+
+TERM_PUBLIC void
+QAD_options(void)
+{
+    QAD_parse_private_options();
+    QAD_apply_default_pdf_size_if_needed();
+
+    QAD_SVG_options();
+
+    if (QAD_output_format == QAD_FORMAT_PDF
+    && QAD_pdf_render_width_px > 0
+    && QAD_pdf_render_height_px > 0) {
+        QAD_SVG_xSize = QAD_pdf_render_width_px * SVG_SCALE;
+        QAD_SVG_ySize = QAD_pdf_render_height_px * SVG_SCALE;
+        QAD_SVG_fixed_size = TRUE;
+    }
+
+    term->xmax = QAD_SVG_xSize;
+    term->ymax = QAD_SVG_ySize;
+
+    switch (QAD_output_format) {
+    case QAD_FORMAT_SVG:
+        sprintf(term_options, "qad size %u,%u format svg", QAD_pixel_width(), QAD_pixel_height());
+        break;
+    case QAD_FORMAT_PNG:
+        sprintf(term_options, "qad size %u,%u format png", QAD_pixel_width(), QAD_pixel_height());
+        break;
+    case QAD_FORMAT_JPG:
+        sprintf(term_options, "qad size %u,%u format jpg quality %d", QAD_pixel_width(), QAD_pixel_height(), QAD_jpg_quality);
+        break;
+    case QAD_FORMAT_BMP:
+        sprintf(term_options, "qad size %u,%u format bmp", QAD_pixel_width(), QAD_pixel_height());
+        break;
+    case QAD_FORMAT_PDF:
+        sprintf(term_options, "qad size %.4gin,%.4gin format pdf dpi %.0f",
+            QAD_pdf_page_width_pt / QAD_PDF_POINTS_PER_INCH,
+            QAD_pdf_page_height_pt / QAD_PDF_POINTS_PER_INCH,
+            QAD_pdf_dpi);
+        break;
+    case QAD_FORMAT_RGBA:
+        sprintf(term_options, "qad size %u,%u format rgba", QAD_pixel_width(), QAD_pixel_height());
+        break;
+    case QAD_FORMAT_RGB:
+        sprintf(term_options, "qad size %u,%u format rgb", QAD_pixel_width(), QAD_pixel_height());
+        break;
+    default:
+        sprintf(term_options, "qad via svg");
+        break;
+    }
+}
+
+
+TERM_PUBLIC void
+QAD_init(void)
+{
+    QAD_buf_clear(&QAD_svg_buf);
+    QAD_SVG_init();
+}
+
+
+TERM_PUBLIC void
+QAD_graphics(void)
+{
+    QAD_buf_clear(&QAD_svg_buf);
+    QAD_SVG_graphics();
+}
+
+
+TERM_PUBLIC void
+QAD_text(void)
+{
+    QAD_SVG_text();
+
+    if (QAD_svg_buf.failed) {
+        os_error(NO_CARET, "qad: failed while capturing SVG output");
+        return;
+    }
+
+    if (QAD_finalize_output(QAD_svg_buf.data, QAD_svg_buf.size)) {
+        os_error(NO_CARET, "qad: failed while finalizing output");
+        return;
+    }
+}
+
+
+TERM_PUBLIC void
+QAD_reset(void)
+{
+    QAD_SVG_reset();
+    QAD_buf_free(&QAD_svg_buf);
+}
+
+#endif /* TERM_BODY */
+
+
+/* ============================================================
+ * TERM_TABLE
+ * ============================================================ */
+
+#ifdef TERM_TABLE
+
+TERM_TABLE_START(qad_driver)
+"qad", "QAD embedded terminal using SVG backend",
+0, 0, 0, 0, 0, 0,
+QAD_options,
+QAD_init,
+QAD_reset,
+QAD_text,
+null_scale,
+QAD_graphics,
+QAD_SVG_move,
+QAD_SVG_vector,
+QAD_SVG_linetype,
+QAD_SVG_put_text,
+QAD_SVG_text_angle,
+QAD_SVG_justify_text,
+QAD_SVG_point,
+do_arrow,
+QAD_SVG_set_font,
+do_pointsize,
+TERM_CAN_DASH | TERM_ALPHA_CHANNEL | TERM_LINEWIDTH | TERM_BINARY,
+0,
+0,
+QAD_SVG_fillbox,
+QAD_SVG_linewidth
+#ifdef USE_MOUSE
+, 0, 0, 0, 0, 0
+#endif
+, QAD_SVG_make_palette
+, QAD_SVG_previous_palette
+, QAD_SVG_set_color
+, QAD_SVG_filled_polygon
+#ifdef WRITE_PNG_IMAGE
+, QAD_SVG_image
+#else
+, NULL
+#endif
+, QAD_ENHsvg_OPEN
+, QAD_ENHsvg_FLUSH
+, QAD_ENHsvg_writec
+, QAD_SVG_layer
+, QAD_SVG_path
+, SVG_SCALE
+, QAD_SVG_hypertext
+, QAD_SVG_boxed_text
+, NULL
+, QAD_SVG_dashtype
+TERM_TABLE_END(qad_driver)
+
+#undef LAST_TERM
+#define LAST_TERM qad_driver
+
+#endif /* TERM_TABLE */
+
+#endif /* TERM_PROTO_ONLY */
+
+
+/* ============================================================
+ * Cleanup renames
+ * ============================================================ */
+
+#undef SVG_options
+#undef SVG_init
+#undef SVG_graphics
+#undef SVG_text
+#undef SVG_linetype
+#undef SVG_dashtype
+#undef SVG_move
+#undef SVG_vector
+#undef SVG_put_text
+#undef SVG_reset
+#undef SVG_justify_text
+#undef SVG_text_angle
+#undef SVG_point
+#undef SVG_set_font
+#undef SVG_fillbox
+#undef SVG_linewidth
+#undef SVG_make_palette
+#undef SVG_previous_palette
+#undef SVG_set_color
+#undef SVG_filled_polygon
+#undef SVG_layer
+#undef SVG_path
+#undef SVG_hypertext
+#undef SVG_boxed_text
+
+#ifdef WRITE_PNG_IMAGE
+#undef SVG_image
+#endif
+
+#undef ENHsvg_OPEN
+#undef ENHsvg_FLUSH
+#undef ENHsvg_put_text
+#undef ENHsvg_writec
+
+#undef SVG_red
+#undef SVG_green
+#undef SVG_blue
+#undef SVG_alpha
+#undef SVG_color_mode
+#undef SVG_rgb
+#undef SVG_linecolor
+#undef SVG_name
+#undef SVG_description
+#undef SVG_scriptdir
+#undef SVG_mouseable
+#undef SVG_standalone
+#undef SVG_domterm
+#undef SVG_emit_doctype
+#undef SVG_animate
+#undef SVG_groupFilledIsOpen
+#undef SVG_inTextBox
+#undef SVG_PEN
+#undef SVG_xSize
+#undef SVG_ySize
+#undef SVG_fixed_size
+#undef SVG_xLast
+#undef SVG_yLast
+#undef SVG_LineType
+#undef SVG_LineWidth
+#undef SVG_linewidth_factor
+#undef SVG_dashlength
+#undef SVG_linecap
+#undef SVG_TextAngle
+#undef SVG_TextJust
+#undef SVG_fontNameDef
+#undef SVG_fontStyleDef
+#undef SVG_fontWeightDef
+#undef SVG_fontSizeDef
+#undef SVG_fontNameCur
+#undef SVG_fontStyleCur
+#undef SVG_fontWeightCur
+#undef SVG_fontSizeCur
+#undef SVG_fontscale
+#undef SVG_groupIsOpen
+#undef SVG_pathIsOpen
+#undef SVG_path_count
+#undef SVG_fillPattern
+#undef SVG_fillPatternIndex
+#undef SVG_pens
+#undef SVG_background
+#undef SVG_plotno
+#undef SVG_gridline
+#undef SVG_hasgrid
+#undef SVG_fontAscent
+#undef SVG_fontDescent
+#undef SVG_fontLeading
+#undef SVG_fontAvWidth
+
+#undef SVG_defaultdashpattern
+#undef SVG_axis_dashpattern
+#undef SVG_dasharray
+#undef SVG_dashpattern
+
+#undef SVG_hypertext_fontSize
+#undef SVG_hypertext_fontName
+#undef SVG_hypertext_fontStyle
+#undef SVG_hypertext_fontWeight
+#undef SVG_hypertext_text
+
+#undef SVG_Pen_RealID
+#undef SVG_GroupOpen
+#undef SVG_GroupClose
+#undef SVG_PathOpen
+#undef SVG_PathClose
+#undef SVG_AddSpaceOrNewline
+#undef SVG_SetFont
+#undef SVG_GroupFilledOpen
+#undef SVG_GroupFilledClose
+#undef SVG_StyleColor
+#undef SVG_StyleFillColor
+#undef SVG_DefineFillPattern
+#undef SVG_MoveForced
+#undef SVG_local_reset
+#undef SVG_put_CDATA
+#undef SVG_write_preamble
+#undef svg_mouse_param
+
+#undef ENHsvg_string_state
+#undef ENHsvg_x_offset
+#undef ENHsvg_preserve_spaces
+#undef ENHsvg_base
+#undef ENHsvg_opened_string
+#undef ENHsvg_charcount
+
+
+#ifdef TERM_HELP
+    START_HELP(qad)
+    "1 qad",
+    "?commands set terminal qad",
+    "?set terminal qad",
+    "?set term qad",
+    "?terminal qad",
+    "?term qad",
+    "?qad",
+    " The `qad` terminal is an embedded backend that wraps the SVG terminal",
+    " and captures SVG output in memory.",
+    "",
+    " Examples:",
+    "     set terminal qad size 800,600 format png",
+    "     set terminal qad size 10cm,6cm format pdf dpi 300",
+    "     set terminal qad format pdf",
+    "",
+    " For SVG/PNG/JPG/BMP/raw formats, `size` is pixels.",
+    " For PDF, `size` is physical page size.  No unit means inches,",
+    " like pdfcairo.  The `dpi` option converts this physical size to",
+    " the internal raster size.  Default PDF size is A4 portrait width",
+    " minus common 1 inch margins, preserving a 5:3 plot aspect ratio."
+    END_HELP(qad)
+#endif
+

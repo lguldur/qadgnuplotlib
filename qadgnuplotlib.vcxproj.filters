@@ -1,0 +1,823 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="gnuplot-main\src\alloc.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\amos_airy.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\axis.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\bitmap.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\boundary.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\breaders.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\color.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\command.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\complexfun.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\contour.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\datablock.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\dynarray.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\encoding.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\eval.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\external.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\filters.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\fit.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\gadgets.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\getcolor.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\gpexecute.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\gplocale.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\graph3d.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\graphics.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\help.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\hidden3d.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\history.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\internal.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\interpol.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\jitter.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\libcerf.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\loadpath.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\marks.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\matrix.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\misc.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\mouse.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\multiplot.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\parse.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\plot2d.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\plot3d.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\pm3d.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\readline.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\save.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\scanner.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\win\screenbuf.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\set.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\specfun.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\standard.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\stats.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\stdfn.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\tables.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\tabulate.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\time.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\unset.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\util.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\util3d.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\version.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\voxelgrid.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\vplot.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\watch.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\win\wd2d.cpp">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\win\wgdiplus.cpp">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\win\wgnuplib.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\win\wgraph.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\win\wmenu.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\win\wpause.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\win\wprinter.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\win\wredirect.cpp">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\win\wtext.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="gnuplot-main\src\xdg.c">
+      <Filter>gnuplot</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\source\graphics.cpp">
+      <Filter>lunasvg</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\source\lunasvg.cpp">
+      <Filter>lunasvg</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\source\svgelement.cpp">
+      <Filter>lunasvg</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\source\svggeometryelement.cpp">
+      <Filter>lunasvg</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\source\svglayoutstate.cpp">
+      <Filter>lunasvg</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\source\svgpaintelement.cpp">
+      <Filter>lunasvg</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\source\svgparser.cpp">
+      <Filter>lunasvg</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\source\svgproperty.cpp">
+      <Filter>lunasvg</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\source\svgrenderstate.cpp">
+      <Filter>lunasvg</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\source\svgtextelement.cpp">
+      <Filter>lunasvg</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-blend.c">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-canvas.c">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-font.c">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-ft-math.c">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-ft-raster.c">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-ft-stroker.c">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-matrix.c">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-paint.c">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-path.c">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-rasterize.c">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClCompile>
+    <ClCompile Include="lunasvg\plutovg\source\plutovg-surface.c">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClCompile>
+    <ClCompile Include="miniz\miniz.c">
+      <Filter>miniz</Filter>
+    </ClCompile>
+    <ClCompile Include="base64\base64.cpp">
+      <Filter>base64</Filter>
+    </ClCompile>
+    <ClCompile Include="src\helpers.cpp">
+      <Filter>_src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\plot_glue.c">
+      <Filter>_src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\qadgnuplotlib.c">
+      <Filter>_src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\winmain_glue.c">
+      <Filter>_src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\term.c">
+      <Filter>_src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\context.cpp">
+      <Filter>_src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\datafile_glue.c">
+      <Filter>_src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\show_glue.c">
+      <Filter>_src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="gnuplot-main\src\alloc.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\amos_airy.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\axis.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\bitmap.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\boundary.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\breaders.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\color.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\command.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\complexfun.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\contour.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\datablock.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\datafile.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\dynarray.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\encoding.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\eval.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\external.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\filters.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\fit.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\gadgets.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\getcolor.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\gp_hist.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\gp_time.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\gp_types.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\gpexecute.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\gplocale.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\gplt_x11.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\graph3d.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\graphics.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\help.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\hidden3d.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\internal.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\interpol.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\jitter.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\libcerf.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\loadpath.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\marching_cubes.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\marks.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\matrix.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\misc.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\mouse.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\mousecmn.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\multiplot.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\parse.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\plot.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\plot2d.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\plot3d.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\pm3d.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\qt_table.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\readline.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\save.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\scanner.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\win\screenbuf.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\setshow.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\specfun.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\standard.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\stats.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\stdfn.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\syscfg.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\tables.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\tabulate.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\term.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\term_api.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\util.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\util3d.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\version.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\voxelgrid.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\vplot.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\watch.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\win\wcommon.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\win\wd2d.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\win\wgdiplus.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\win\wgnuplib.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\term\win.trm">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\win\winmain.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\win\wresourc.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\win\wtext.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="gnuplot-main\src\xdg.h">
+      <Filter>gnuplot</Filter>
+    </ClInclude>
+    <ClInclude Include="lunasvg\source\graphics.h">
+      <Filter>lunasvg</Filter>
+    </ClInclude>
+    <ClInclude Include="lunasvg\source\svgelement.h">
+      <Filter>lunasvg</Filter>
+    </ClInclude>
+    <ClInclude Include="lunasvg\source\svggeometryelement.h">
+      <Filter>lunasvg</Filter>
+    </ClInclude>
+    <ClInclude Include="lunasvg\source\svglayoutstate.h">
+      <Filter>lunasvg</Filter>
+    </ClInclude>
+    <ClInclude Include="lunasvg\source\svgpaintelement.h">
+      <Filter>lunasvg</Filter>
+    </ClInclude>
+    <ClInclude Include="lunasvg\source\svgparserutils.h">
+      <Filter>lunasvg</Filter>
+    </ClInclude>
+    <ClInclude Include="lunasvg\source\svgproperty.h">
+      <Filter>lunasvg</Filter>
+    </ClInclude>
+    <ClInclude Include="lunasvg\source\svgrenderstate.h">
+      <Filter>lunasvg</Filter>
+    </ClInclude>
+    <ClInclude Include="lunasvg\source\svgtextelement.h">
+      <Filter>lunasvg</Filter>
+    </ClInclude>
+    <ClInclude Include="lunasvg\include\lunasvg.h">
+      <Filter>lunasvg</Filter>
+    </ClInclude>
+    <ClInclude Include="lunasvg\plutovg\source\plutovg-ft-math.h">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClInclude>
+    <ClInclude Include="lunasvg\plutovg\source\plutovg-ft-raster.h">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClInclude>
+    <ClInclude Include="lunasvg\plutovg\source\plutovg-ft-stroker.h">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClInclude>
+    <ClInclude Include="lunasvg\plutovg\source\plutovg-ft-types.h">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClInclude>
+    <ClInclude Include="lunasvg\plutovg\source\plutovg-private.h">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClInclude>
+    <ClInclude Include="lunasvg\plutovg\source\plutovg-stb-image.h">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClInclude>
+    <ClInclude Include="lunasvg\plutovg\source\plutovg-stb-image-write.h">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClInclude>
+    <ClInclude Include="lunasvg\plutovg\source\plutovg-stb-truetype.h">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClInclude>
+    <ClInclude Include="lunasvg\plutovg\source\plutovg-utils.h">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClInclude>
+    <ClInclude Include="lunasvg\plutovg\include\plutovg.h">
+      <Filter>lunasvg\plutovg</Filter>
+    </ClInclude>
+    <ClInclude Include="miniz\miniz.h">
+      <Filter>miniz</Filter>
+    </ClInclude>
+    <ClInclude Include="base64\base64.h">
+      <Filter>base64</Filter>
+    </ClInclude>
+    <ClInclude Include="src\qadgnuplotlib.h">
+      <Filter>_src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\term.h">
+      <Filter>_src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\qadgnuplotlib.hpp">
+      <Filter>_src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gnuplot-main\term\ai.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\aquaterm.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\be.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\block.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\caca.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\cairo.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\canvas.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\cgm.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\context.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\corel.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\debug.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\djsvga.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\dumb.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\dxf.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\dxy.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\eepic.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\emf.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\epson.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\estimate.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\excl.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\fig.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\gd.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\ggi.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\gpic.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\grass.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\hp26.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\hp500c.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\hp2648.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\hpgl.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\hpljii.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\hppj.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\imagen.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\kyo.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\latex.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\linux-vgagl.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\lua.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\metafont.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\metapost.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\mif.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\pbm.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\pc.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\pict2e.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\pm.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\post.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\pslatex.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\pstricks.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\qms.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\qt.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\regis.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\svg.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\t410x.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\tek.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\texdraw.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\tgif.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\tkcanvas.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\tpic.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\webp.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\wxt.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\x11.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="gnuplot-main\term\xlib.trm">
+      <Filter>gnuplot</Filter>
+    </None>
+    <None Include="src\qad.trm">
+      <Filter>_src</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="gnuplot">
+      <UniqueIdentifier>{475994c7-7926-4098-9d89-45035fce976a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lunasvg">
+      <UniqueIdentifier>{e51e4ab4-5795-4fcd-9a3e-fd269e86bdd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lunasvg\plutovg">
+      <UniqueIdentifier>{d37ff26e-ac5c-4dff-855d-98aaeaaff30c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="miniz">
+      <UniqueIdentifier>{e70cad7f-d50f-468b-9bc2-4c91f403e037}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="base64">
+      <UniqueIdentifier>{f4f837db-5115-4a17-9af1-2aad7eb48673}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_src">
+      <UniqueIdentifier>{6924441d-238a-498e-994f-6061b3a0a6b1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="lunasvg\plutovg\source\FTL.TXT">
+      <Filter>lunasvg\plutovg</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

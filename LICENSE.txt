@@ -1,0 +1,38 @@
+qadgnuplotlib licence summary
+=============================
+
+The original qadgnuplotlib wrapper/library code is distributed under the MIT
+Licence. See:
+
+    licences/QADGNUPLOTLIB-MIT.txt
+
+This repository also contains third-party components. Those components remain
+under their own respective licences. See the files in the licences/ directory.
+
+Important note about gnuplot
+----------------------------
+
+This repository embeds portions of the gnuplot source code, including modified
+and unmodified files derived from the gnuplot project.
+
+Those files are not MIT-licensed and remain distributed under the gnuplot
+licence. See:
+
+    licences/GNUPLOT-Copyright.txt
+
+If you redistribute binaries built from modified gnuplot sources, you should
+comply with the redistribution conditions described in the gnuplot licence,
+including clearly identifying modified versions and providing corresponding
+source modifications where applicable.
+
+Important note about PlutoVG's bundled stb files
+------------------------------------------------
+
+qadgnuplotlib does not vendor a separate standalone stb directory. Image
+encoding helpers use the stb_image_write copy bundled inside PlutoVG:
+
+    lunasvg/plutovg/source/plutovg-stb-image-write.h
+
+The other PlutoVG-bundled stb-derived files remain part of the PlutoVG source
+tree. Their licence notices are preserved in the source files and summarized in
+the licences/ directory.
