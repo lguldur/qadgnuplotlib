@@ -1,8 +1,8 @@
 # qadgnuplotlib
 
-A standalone C++20 static library embedding gnuplot for script-driven plot generation, memory-backed datasets, and report-oriented image/PDF output.
+A standalone C/C++ static library embedding gnuplot for script-driven plot generation, memory-backed datasets, and report-oriented image/PDF output.
 
-Standalone embedded gnuplot C++20 + C API Visual Studio 2022+ SVG / PNG / JPG / BMP / PDF mem:// registered data
+Standalone embedded gnuplot library with C++ API and C API with Visual Studio 2022+ project. outputs SVG / PNG / JPG / BMP / PDF mem:// registered data
 
 [Goal](#1-goal-of-the-library) [How to use](#2-how-to-use-it) [C++ API](#2a-C-API) [C API](#2b-C-API) [How it works](#3-How-it-works) [Licences](#4-Licences)
 
