@@ -109,6 +109,7 @@ The current implementation supports simple numeric column sources through the no
 
 `Context` owns a plotting session and its registered data. A single context can run several scripts using the same registered data.
 
+### Methods
 
 `Context()` Create a plotting context.
 
