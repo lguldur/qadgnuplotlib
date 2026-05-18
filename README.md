@@ -118,65 +118,37 @@ The current implementation supports simple numeric column sources through the no
 
 `register_data(name, pointer, count)` Register or replace a numeric column from a raw pointer and element count.
 
-`register_data(name, vector)`
+`register_data(name, vector)` Register or replace a numeric column from a `std::vector`.
 
-Register or replace a numeric column from a `std::vector`.
+`register_data(name, span, width, height, channels)` Register or replace image-like data. This is reserved for image/matrix workflows.
 
-`register_data(name, span, width, height, channels)`
+`unregister_data(name)` Remove a registered column and/or image by name.
 
-Register or replace image-like data. This is reserved for image/matrix workflows.
+`clear_data()` Remove all registered data from the context.
 
-`unregister_data(name)`
+`has_column(name)`, `has_image(name)` Check whether data is registered under a given name.
 
-Remove a registered column and/or image by name.
+`column(name)`, `image(name)` Return internal metadata for a registered column or image.
 
-`clear_data()`
-
-Remove all registered data from the context.
-
-`has_column(name)`, `has_image(name)`
-
-Check whether data is registered under a given name.
-
-`column(name)`, `image(name)`
-
-Return internal metadata for a registered column or image.
-
-`run(script)`
-
-Execute a script from `const char*`, `std::string`, `std::string_view`, or `Script`.
+`run(script)` Execute a script from `const char*`, `std::string`, `std::string_view`, or `Script`.
 
 ### Supported column types
 
 The C++ API uses C++20 templates and concepts to accept only supported, trivially-copyable numeric types.
 
-C++ type
+C++ type => Internal gnuplot binary type name:
 
-Internal gnuplot binary type name
+`float` => `%float32`
 
-`float`
+`double` => `%float64`
 
-`%float32`
+`int8_t`, `uint8_t` => `%int8`, `%uint8`
 
-`double`
+`int16_t`, `uint16_t` => `%int16`, `%uint16`
 
-`%float64`
+`int32_t`, `uint32_t` => `%int32`, `%uint32`
 
-`int8_t`, `uint8_t`
-
-`%int8`, `%uint8`
-
-`int16_t`, `uint16_t`
-
-`%int16`, `%uint16`
-
-`int32_t`, `uint32_t`
-
-`%int32`, `%uint32`
-
-`int64_t`, `uint64_t`
-
-`%int64`, `%uint64`
+`int64_t`, `uint64_t` => `%int64`, `%uint64`
 
 ### `qadgnuplotlib::Script`
 
@@ -186,35 +158,21 @@ Method
 
 Purpose
 
-`Script()`
+`Script()` Create an empty script.
 
-Create an empty script.
+`Script(const char*)`, `Script(std::string)`, `Script(std::string_view)` Create a script from text.
 
-`Script(const char*)`, `Script(std::string)`, `Script(std::string_view)`
+`Script::load(path)` Load a script from disk.
 
-Create a script from text.
+`save(path)` Save the script to disk.
 
-`Script::load(path)`
+`text()`, `c_str()`, `size()`, `empty()` Inspect script content.
 
-Load a script from disk.
-
-`save(path)`
-
-Save the script to disk.
-
-`text()`, `c_str()`, `size()`, `empty()`
-
-Inspect script content.
-
-`assign(text)`, `clear()`
-
-Replace or clear script content.
+`assign(text)`, `clear()` Replace or clear script content.
 
 ### Version API
 
-    std::string qadgnuplotlib::version(bool verbose = false);
-
-The short form returns the qadgnuplotlib version line. The verbose form also lists integrated components such as gnuplot, LunaSVG, PlutoVG, miniz, and base64.
+    std::string qadgnuplotlib::version(bool verbose = false); The short form returns the qadgnuplotlib version line. The verbose form also lists integrated components such as gnuplot, LunaSVG, PlutoVG, miniz, and base64.
 
 2b. C API
 ---------
@@ -223,41 +181,21 @@ The C API is a thin opaque-handle facade over the C++ implementation. It is desi
 
 ### Context functions
 
-Function
+`qadgnuplotlib_create()` Create a context.
 
-Purpose
+`qadgnuplotlib_destroy(ctx)` Destroy a context.
 
-`qadgnuplotlib_create()`
+`qadgnuplotlib_run(ctx, script_text)` Execute a script string.
 
-Create a context.
+`qadgnuplotlib_run_script(ctx, script)` Execute a reusable script object.
 
-`qadgnuplotlib_destroy(ctx)`
+`qadgnuplotlib_unregister_data(ctx, name)` Remove registered data by name.
 
-Destroy a context.
+`qadgnuplotlib_clear_data(ctx)` Remove all registered data.
 
-`qadgnuplotlib_run(ctx, script_text)`
+`qadgnuplotlib_last_error()` Return the latest thread-local C API diagnostic string.
 
-Execute a script string.
-
-`qadgnuplotlib_run_script(ctx, script)`
-
-Execute a reusable script object.
-
-`qadgnuplotlib_unregister_data(ctx, name)`
-
-Remove registered data by name.
-
-`qadgnuplotlib_clear_data(ctx)`
-
-Remove all registered data.
-
-`qadgnuplotlib_last_error()`
-
-Return the latest thread-local C API diagnostic string.
-
-`qadgnuplotlib_clear_last_error()`
-
-Clear the thread-local diagnostic string.
+`qadgnuplotlib_clear_last_error()` Clear the thread-local diagnostic string.
 
 ### Column registration functions
 
@@ -291,55 +229,27 @@ The C API also provides image-style registration functions with `width`, `height
 
 ### Script functions
 
-Function
+`qadgnuplotlib_script_create(text)` Create a script object from text.
 
-Purpose
+`qadgnuplotlib_script_load_file(path)` Load a script object from disk.
 
-`qadgnuplotlib_script_create(text)`
+`qadgnuplotlib_script_destroy(script)` Destroy a script object.
 
-Create a script object from text.
+`qadgnuplotlib_script_assign(script, text)` Replace script text.
 
-`qadgnuplotlib_script_load_file(path)`
+`qadgnuplotlib_script_save_file(script, path)` Save script text to disk.
 
-Load a script object from disk.
+`qadgnuplotlib_script_text(script)` Return a const pointer to script text.
 
-`qadgnuplotlib_script_destroy(script)`
-
-Destroy a script object.
-
-`qadgnuplotlib_script_assign(script, text)`
-
-Replace script text.
-
-`qadgnuplotlib_script_save_file(script, path)`
-
-Save script text to disk.
-
-`qadgnuplotlib_script_text(script)`
-
-Return a const pointer to script text.
-
-`qadgnuplotlib_script_size(script)`
-
-Return the script size in bytes.
+`qadgnuplotlib_script_size(script)` Return the script size in bytes.
 
 ### Low-level functions
 
-Function
+`qadgnuplotlib_execute_script(script)` Execute directly through the embedded interpreter. This bypasses `Context`, so it cannot use registered `mem://` data.
 
-Purpose
+`qadgnuplotlib_set_log_file(path)` Redirect gnuplot diagnostics to a log file. Passing `NULL` or an empty string restores normal stderr behavior.
 
-`qadgnuplotlib_execute_script(script)`
-
-Execute directly through the embedded interpreter. This bypasses `Context`, so it cannot use registered `mem://` data.
-
-`qadgnuplotlib_set_log_file(path)`
-
-Redirect gnuplot diagnostics to a log file. Passing `NULL` or an empty string restores normal stderr behavior.
-
-`qadgnuplotlib_version(verbose)`
-
-Return the short or verbose version string.
+`qadgnuplotlib_version(verbose)` Return the short or verbose version string.
 
 3\. How it works
 ----------------
@@ -383,73 +293,37 @@ The `mem://` mechanism is implemented in the gnuplot datafile layer, not in the 
 
 ### Directory overview
 
-Path
+`src/` qadgnuplotlib code, local glue files, custom terminal, public headers, tests.
 
-Role
+`gnuplot-main/` Embedded gnuplot source tree.
 
-`src/`
+`lunasvg/` SVG parsing/rendering library.
 
-qadgnuplotlib code, local glue files, custom terminal, public headers, tests.
+`lunasvg/plutovg/` 2D vector/raster support used by LunaSVG.
 
-`gnuplot-main/`
+`miniz/` Deflate support used by the raster PDF writer.
 
-Embedded gnuplot source tree.
+`base64/` Base64 support used for embedded image paths.
 
-`lunasvg/`
+`generated/` Generated configuration/version headers.
 
-SVG parsing/rendering library.
-
-`lunasvg/plutovg/`
-
-2D vector/raster support used by LunaSVG.
-
-`miniz/`
-
-Deflate support used by the raster PDF writer.
-
-`base64/`
-
-Base64 support used for embedded image paths.
-
-`generated/`
-
-Generated configuration/version headers.
-
-`licences/`
-
-Licence texts and third-party licence notices.
+`licences/` Licence texts and third-party licence notices.
 
 ### Glue files
 
 Some files are local copies/adaptations of gnuplot source files. This keeps `gnuplot-main` easier to update and makes local changes explicit.
 
-File
+`src/winmain_glue.c` Windows/main bootstrap adaptation for embedded library execution.
 
-Purpose
+`src/plot_glue.c` Plot/session glue adapted from gnuplot.
 
-`src/winmain_glue.c`
+`src/datafile_glue.c` Datafile-layer adaptation implementing `mem://` sources.
 
-Windows/main bootstrap adaptation for embedded library execution.
+`src/show_glue.c` Version-display adaptation that appends qadgnuplotlib version information after genuine gnuplot output.
 
-`src/plot_glue.c`
+`src/term.c`, `src/term.h` Local terminal table integration, including the `qad` terminal.
 
-Plot/session glue adapted from gnuplot.
-
-`src/datafile_glue.c`
-
-Datafile-layer adaptation implementing `mem://` sources.
-
-`src/show_glue.c`
-
-Version-display adaptation that appends qadgnuplotlib version information after genuine gnuplot output.
-
-`src/term.c`, `src/term.h`
-
-Local terminal table integration, including the `qad` terminal.
-
-`src/qad.trm`
-
-Custom terminal that captures SVG and produces final outputs.
+`src/qad.trm` Custom terminal that captures SVG and produces final outputs.
 
 ### Version reporting
 
@@ -468,34 +342,18 @@ The embedded gnuplot source tree and files derived from gnuplot are not MIT-lice
 
 Third-party components remain under their own licences. See the `licences/` directory for the licence texts and summaries.
 
-Component
+qadgnuplotlib original code: `licences/QADGNUPLOTLIB-MIT.txt`
 
-Licence location / note
+gnuplot and gnuplot-derived glue: `licences/GNUPLOT-Copyright.txt`
 
-qadgnuplotlib original code
+LunaSVG: See `licences/` and original source notices.
 
-`licences/QADGNUPLOTLIB-MIT.txt`
+PlutoVG and bundled stb-derived files: See `licences/` and original source notices.
 
-gnuplot and gnuplot-derived glue
+miniz: See `licences/` and original source notices.
 
-`licences/GNUPLOT-Copyright.txt`
-
-LunaSVG
-
-See `licences/` and original source notices.
-
-PlutoVG and bundled stb-derived files
-
-See `licences/` and original source notices.
-
-miniz
-
-See `licences/` and original source notices.
-
-base64
-
-Embedded source, see `licences/` and original source notices.
+base64: Embedded source, see `licences/` and original source notices.
 
 If you redistribute binaries built from modified gnuplot sources, check the gnuplot licence obligations, including identifying modified versions and providing corresponding source modifications where applicable.
 
-qadgnuplotlib — Copyright © 2026 David Duchet. This page is intentionally plain HTML so it can be used directly as a GitHub Pages `index.html`.
+qadgnuplotlib — Copyright © 2026 David Duchet.
