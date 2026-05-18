@@ -1,5 +1,4 @@
 # qadgnuplotlib
-=============
 
 A standalone C++20 static library embedding gnuplot for script-driven plot generation, memory-backed datasets, and report-oriented image/PDF output.
 
