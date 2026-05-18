@@ -109,25 +109,14 @@ The current implementation supports simple numeric column sources through the no
 
 `Context` owns a plotting session and its registered data. A single context can run several scripts using the same registered data.
 
-Method
 
-Purpose
+`Context()` Create a plotting context.
 
-`Context()`
+`~Context()` Destroy the context. Registered data views are discarded.
 
-Create a plotting context.
+`register_data(name, span)` Register or replace a numeric column from a `std::span`.
 
-`~Context()`
-
-Destroy the context. Registered data views are discarded.
-
-`register_data(name, span)`
-
-Register or replace a numeric column from a `std::span`.
-
-`register_data(name, pointer, count)`
-
-Register or replace a numeric column from a raw pointer and element count.
+`register_data(name, pointer, count)` Register or replace a numeric column from a raw pointer and element count.
 
 `register_data(name, vector)`
 
