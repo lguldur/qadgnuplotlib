@@ -4,7 +4,7 @@ A standalone C++20 static library embedding gnuplot for script-driven plot gener
 
 Standalone embedded gnuplot C++20 + C API Visual Studio 2022+ SVG / PNG / JPG / BMP / PDF mem:// registered data
 
-[Goal](#goal) [How to use](#use) [C++ API](#cpp-api) [C API](#c-api) [How it works](#how) [Licences](#licences)
+[Goal](#goal-of-the-library) [How to use](#how-to-use-it) [C++ API](#C++-API) [C API](#c-api) [How it works](#how) [Licences](#licences)
 
 1\. Goal of the library
 -----------------------
